@@ -14,17 +14,26 @@
     <script src="map.js" type="module"></script>
 </head>
 <body>
-    <h1>Bikewatching</h1>
-    <label style="margin-left: auto;">
-        Filter by time:
-        <input id="time-slider" type="range" min="-1" max="1440" value="-1" />
-        <time id="selected-time" style="display: block;"></time>
-        <em id="any-time" style="display: block; color: gray; font-style: italic;">
-          (any time)
-        </em>
-    </label>
+    <header style="display: flex; gap: 1em; align-items: baseline;">
+        <h1>Bikewatching</h1>
+        <label style="margin-left: auto;">
+            Filter by time:
+            <input id="time-slider" type="range" min="-1" max="1440" value="-1" />
+            <time id="selected-time" style="display: block;"></time>
+            <em id="any-time" style="display: block; color: gray; font-style: italic;">
+            (any time)
+            </em>
+        </label>
+    </header>
+    
     <div id="map">
-        <svg></svg>
+      <svg></svg>
+    </div>
+
+    <div class="legend">
+      <div style="--departure-ratio: 1; text-align: left;">More departures</div>
+      <div style="--departure-ratio: 0.5; text-align: center;">Balanced</div>
+      <div style="--departure-ratio: 0; text-align: right;">More arrivals</div>
     </div>
 </body>
 </html>

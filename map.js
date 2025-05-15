@@ -126,24 +126,33 @@ map.on('load', async () => {
     .domain([0, d3.max(stations, (d) => d.totalTraffic)])
     .range([0, 25]);
 
+  const stationFlow = d3.scaleQuantize()
+    .domain([0, 1])
+    .range([0, 0.5, 1]);
+
   const circles = svg
-    .selectAll('circle')
-    .data(stations, (d) => d.short_name)
-    .enter()
-    .append('circle')
-    .attr('fill', 'steelblue')
-    .attr('stroke', 'white')
-    .attr('stroke-width', 1)
-    .attr('opacity', 0.6)
-    .style('pointer-events', 'auto')
-    .attr('r', (d) => radiusScale(d.totalTraffic))
-    .each(function (d) {
-      d3.select(this)
-        .append('title')
-        .text(
-          `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`
-        );
-    });
+  .selectAll('circle')
+  .data(stations, (d) => d.short_name)
+  .enter()
+  .append('circle')
+  .attr('fill', 'steelblue')
+  .attr('stroke', 'white')
+  .attr('stroke-width', 1)
+  .attr('opacity', 0.6)
+  .style('pointer-events', 'auto')
+  .style('--departure-ratio', (d) =>
+    stationFlow(d.totalTraffic === 0 ? 0.5 : d.departures / d.totalTraffic)
+  )
+  .attr('r', (d) => radiusScale(d.totalTraffic))
+  .each(function (d) {
+    d3.select(this)
+      .append('title')
+      .text(
+        `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`
+      );
+  });
+
+
 
   function updatePositions() {
     circles
@@ -167,7 +176,7 @@ map.on('load', async () => {
     timeFilter === -1
       ? radiusScale.range([0, 25])
       : radiusScale.range([3, 50]);
-
+  
     svg
       .selectAll('circle')
       .data(filteredStations, (d) => d.short_name)
@@ -177,21 +186,22 @@ map.on('load', async () => {
       .attr('stroke-width', 1)
       .attr('opacity', 0.6)
       .style('pointer-events', 'auto')
+      .style('--departure-ratio', (d) =>
+        stationFlow(d.totalTraffic === 0 ? 0.5 : d.departures / d.totalTraffic)
+      )
       .attr('r', (d) => radiusScale(d.totalTraffic))
       .each(function (d) {
-        d3.select(this)
-          .select('title')
-          .remove();
-
+        d3.select(this).select('title').remove();
         d3.select(this)
           .append('title')
           .text(
             `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`
           );
       });
-
+  
     updatePositions();
   }
+  
 
   function updateTimeDisplay() {
     const timeFilter = Number(timeSlider.value);
