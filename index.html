@@ -15,6 +15,14 @@
 </head>
 <body>
     <h1>Bikewatching</h1>
+    <label style="margin-left: auto;">
+        Filter by time:
+        <input id="time-slider" type="range" min="-1" max="1440" value="-1" />
+        <time id="selected-time" style="display: block;"></time>
+        <em id="any-time" style="display: block; color: gray; font-style: italic;">
+          (any time)
+        </em>
+    </label>
     <div id="map">
         <svg></svg>
     </div>
