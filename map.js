@@ -1,10 +1,9 @@
 // Import Mapbox as an ESM module
 import mapboxgl from 'https://cdn.jsdelivr.net/npm/mapbox-gl@2.15.0/+esm';
 import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
-import { MAPBOX_TOKEN } from './config.js';
 
 // Set your Mapbox access token here
-mapboxgl.accessToken = MAPBOX_TOKEN;
+mapboxgl.accessToken = "pk.eyJ1IjoiYXBodWFuZyIsImEiOiJjbWFyYTVlb2YwOGw1MmlweWR3NmhvMDQzIn0.Ylq-FzcMnjCCqbdDgedXqg";
 
 function formatTime(minutes) {
   const date = new Date(0, 0, 0, 0, minutes);
